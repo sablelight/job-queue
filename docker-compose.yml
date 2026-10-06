@@ -1,0 +1,27 @@
+services:
+  worker:
+    build: .
+    environment:
+      - JOBQ_REDIS_ADDR=redis:6379
+      - JOBQ_STREAM=jobs
+      - JOBQ_GROUP=workers
+      - JOBQ_CONSUMER=worker-1
+      - JOBQ_WORKERS=4
+      - JOBQ_POLL=1000
+      - JOBQ_CLAIM=10
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  enqueue-example:
+    build: .
+    command: ["go", "run", "./cmd/enqueue"]
+    environment:
+      - JOBQ_REDIS_ADDR=redis:6379
+      - JOBQ_STREAM=jobs
+    depends_on:
+      - redis
