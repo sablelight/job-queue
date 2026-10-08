@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 
 	"github.com/sablelight/job-queue/internal/config"
 	"github.com/sablelight/job-queue/internal/queue"
