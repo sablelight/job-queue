@@ -116,7 +116,9 @@ func (p *Pool) processBatch(ctx context.Context) {
 
 		if !ok {
 			log.Printf("no handler for job type %s, sending to dead letter", job.Type)
-			p.queue.DeadLetter(ctx, job)
+			if err := p.queue.DeadLetter(ctx, job); err != nil {
+				log.Printf("job %s dead letter error: %v", job.ID, err)
+			}
 			continue
 		}
 
