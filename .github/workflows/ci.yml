@@ -79,7 +79,7 @@ jobs:
       - name: Build
         run: |
           if [ -d cmd ]; then
-            CGO_ENABLED=0 go build -ldflags="-s -w" -o bin/app ./cmd/...
+            CGO_ENABLED=0 go build -ldflags="-s -w" -o bin/ ./cmd/...
           else
             echo "no cmd/ - verifying package builds"
             go build ./...
@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-${{ runner.os }}-${{ runner.arch }}
-          path: bin/app
+          path: bin
           retention-days: 7
 
   docker:
